@@ -3,6 +3,7 @@ package hello.servlet.web.servlet;
 import hello.servlet.domain.member.Member;
 import hello.servlet.domain.member.MemberRepository;
 
+import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
@@ -21,7 +22,13 @@ public class MemberListServlet extends HttpServlet {
     protected void service(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         List<Member> members = memberRepository.findAll();
 
-        PrintWriter w = response.getWriter();
+        request.setAttribute("members", members);
+
+        String viewPath = "/WEB-INF/views/members.jsp";
+        RequestDispatcher dispatcher = request.getRequestDispatcher(viewPath);
+        dispatcher.forward(request, response);
+
+        /*PrintWriter w = response.getWriter();
         w.write("<html>");
         w.write("<head>");
         w.write("    <meta charset=\"UTF-8\">");
@@ -47,6 +54,6 @@ public class MemberListServlet extends HttpServlet {
         w.write("    </tbody>");
         w.write("</table>");
         w.write("</body>");
-        w.write("</html>");
+        w.write("</html>");*/
     }
 }
